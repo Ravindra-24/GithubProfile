@@ -12,11 +12,15 @@ const UserInput = ({setData, setProgress}) => {
   const handleSubmit = async(e) => {
     e.preventDefault();
     try {
-        if(inputValue === "") throw new Error("Please enter a username");
+        if(inputValue === "" || inputValue === null) {
+            return toast.error("Please enter a username");
+        };
+        
         setProgress(10);
         const response = await axios.get(
           `https://api.github.com/users/${inputValue}`
         );
+        console.log(response.data);
         setProgress(50);
         setData(response.data);
         toast.success("User found");
