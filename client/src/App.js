@@ -1,22 +1,27 @@
+import { useState } from "react";
 import "./App.css";
+import { Toaster } from "react-hot-toast";
+import LoadingBar from "react-top-loading-bar";
+import Main from "./GithubProfile/Main";
 
-import { BrowserRouter as Router } from "react-router-dom";
-import AllRoutes from "./AllRoutes";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { ValidateUser } from "./redux/action/auth";
 
 function App() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(ValidateUser());
-  }, [dispatch]);
+  const [progress, setProgress] = useState(0);
   return (
     <div className="App">
-      <Router>
-        <AllRoutes />
-      </Router>
+      <Toaster />
+      <LoadingBar
+        color="#6096f8"
+        height={4}
+        shadow={true}
+        progress={progress}
+        loaderSpeed={500}
+        containerStyle={{ zIndex: 1000 }}
+        transitionTime={500}
+        waitingTime={1000}
+        onLoaderFinished={() => setProgress(0)}
+      />
+      <Main setProgress={setProgress}/>
     </div>
   );
 }
